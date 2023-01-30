@@ -43,3 +43,8 @@ img{
 th,td{
     padding: 10px;
 }
+
+h1,ol{
+    color: white;
+    text-align: center;
+}
