@@ -52,15 +52,50 @@ public class Menu {
 //    Vector ingredients; 20 bytes * 10 ingredients = 200 bytes
 //    Therefore 1 record = 4 + 20 + 20 + 8 + 4 + 2 + 200 = 258 bytes
 
+    public void readAllRecord(){
+        try {
+            RandomAccessFile fptr = new RandomAccessFile(filename,"r");
+//            while(fptr.getFilePointer() != fptr.length()){
+                byte[] temp = new byte[20];
+                int id = fptr.readInt();
+                System.out.print(id + " ");
+                fptr.read(temp, 0, 20); //name
+                System.out.print(new String(temp) + " ");
+                fptr.read(temp, 0, 20); //category
+                System.out.print(new String(temp) + " ");
+                double p = fptr.readDouble(); //price
+                int cal = fptr.readInt(); //calories
+                short star = fptr.readShort();
+//                int star = fptr.readInt(); //get error because star is short not int
+                System.out.println(p + " " + cal + " " + star + " ");
+                //read 10 ingredients
+                String ingredient = "";
+                for (int i = 0; i < 10 ; i++){
+                    fptr.read(temp, 0, 20);
+                    ingredient += (new String (temp)).trim() + ", ";
+                }
+                System.out.println(ingredient);
+//            }
+        }
+        catch (FileNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+
     public boolean writeOneFoodToFile(Food food){
         try {
             RandomAccessFile fpointer = new RandomAccessFile(filename, "rw");
             // fpointer points to the beginning of the file; byte 0;
             fpointer.seek(fpointer.length());
             byte[] temp = new byte[30];
-            String stName = "Nithit 65130500212";
-            temp = stName.concat("                              ").getBytes();
-            fpointer.write(temp, 0 , 30);
+//            String stName = "Nithit 65130500212";
+//            temp = stName.concat("                              ").getBytes();
+//            fpointer.write(temp, 0 , 30);
 
             fpointer.writeInt(food.ID);
             temp = food.name.concat("                         ").getBytes();
@@ -71,7 +106,7 @@ public class Menu {
             else{
                 temp = "".concat("                                          ").getBytes();
             }
-            fpointer.write(temp, 0, 30);
+            fpointer.write(temp, 0, 20);
             fpointer.writeDouble(food.price);
             fpointer.writeInt(food.calories);
             fpointer.writeShort(food.star);

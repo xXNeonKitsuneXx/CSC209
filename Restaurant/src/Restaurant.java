@@ -19,13 +19,14 @@ public class Restaurant {
         Food fanta = new Food (5 , "Fanta", 20 , 150 ,(short) 2);
 
         Menu menu = new Menu();
-        menu.addNewFood(padthai);
-        menu.addNewFood(pepsi);
-        menu.addNewFood(tomyum);
-        menu.addNewFood(coke);
-        menu.addNewFood(fanta);
+//        menu.addNewFood(padthai);
+//        menu.addNewFood(pepsi);
+//        menu.addNewFood(tomyum);
+//        menu.addNewFood(coke);
+//        menu.addNewFood(fanta);
         menu.showAllFood();
 //        menu.removeFood(2);
-        menu.showAllFood();
+//        menu.showAllFood();
+        menu.readAllRecord();
     }
 }
