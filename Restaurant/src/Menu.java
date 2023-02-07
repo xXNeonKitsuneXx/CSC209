@@ -52,10 +52,89 @@ public class Menu {
 //    Vector ingredients; 20 bytes * 10 ingredients = 200 bytes
 //    Therefore 1 record = 4 + 20 + 20 + 8 + 4 + 2 + 200 = 258 bytes
 
+    public boolean searchByName(String nameFood) {
+        try {
+            RandomAccessFile fptr = new RandomAccessFile(filename, "r");
+            //fptr is point to byte number 0;
+            byte[] temp = new byte[20];
+////            int x = fptr.readInt();
+////            System.out.println(x);
+//            fptr.seek((long) 4); // move to 4th byte. Skip the first ID
+//            fptr.read(temp, 0, 20);
+//            System.out.println(new String(temp) + " ");
+//
+//            fptr.seek(fptr.getFilePointer() + 258 - 20);
+//            // Move from the current location (End of the first name)
+//            // For 258 byte (Get us the end of the second name)
+//            // Then move back 20 bytes (Get us the beginning of the second name)
+//            fptr.read(temp, 0, 20);
+//            System.out.println(new String(temp) + " ");
+//
+//            fptr.seek(258 + 4);
+//            //Move pointer to the end of the first record
+//            //Then move away from the second ID (Integer of 4 bytes)
+//            fptr.read(temp, 0, 20);
+//            System.out.println(new String(temp) + " ");
+//
+//            fptr.seek(258 * 2 + 4);
+//            fptr.read(temp, 0, 20);
+//            System.out.println(new String(temp) + " ");
+
+            int record = 0;
+            while(fptr.getFilePointer() < fptr.length()){
+                fptr.seek(258 * record); //Seek to position of the next record
+                fptr.read(temp, 0, 20);
+                String foodNameFromFile = (new String(temp)).trim();
+                if (foodNameFromFile.equalsIgnoreCase(nameFood)){
+//                    fptr.seek(fptr.getFilePointer() + 20);
+                    fptr.seek(258 * record + 4 + 20 + 20);
+                    double price = fptr.readDouble();
+                    System.out.println("Price of " + nameFood + " is " + price);
+                    return true;
+                }
+                record++;
+            }
+            fptr.close();
+        }
+        catch (FileNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    public void showNamePrice(short fromStar){
+        try {
+            RandomAccessFile fpt = new RandomAccessFile(filename, "r");
+            byte[] temp = new byte [20];
+            for (int record = 0; fpt.getFilePointer()<fpt.length() - 257; record++){
+                fpt.seek(record * 258 + 56); //Get to star of the next record
+                short startFromFile = fpt.readShort();
+                if (startFromFile >= fromStar){
+                    fpt.seek(record * 258 + 4);
+                    fpt.read(temp, 0, 20);
+                    fpt.seek(record * 258 + 44);
+                    double price = fpt.readDouble();
+                    System.out.println((new String(temp)).trim() + ":" + price);
+                }
+            }
+        }
+        catch (FileNotFoundException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }
+
     public void readAllRecord(){
         try {
             RandomAccessFile fptr = new RandomAccessFile(filename,"r");
-//            while(fptr.getFilePointer() != fptr.length()){
+            while(fptr.getFilePointer() != fptr.length()){
                 byte[] temp = new byte[20];
                 int id = fptr.readInt();
                 System.out.print(id + " ");
@@ -75,7 +154,7 @@ public class Menu {
                     ingredient += (new String (temp)).trim() + ", ";
                 }
                 System.out.println(ingredient);
-//            }
+            }
         }
         catch (FileNotFoundException ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);

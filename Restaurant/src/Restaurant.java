@@ -28,5 +28,8 @@ public class Restaurant {
 //        menu.removeFood(2);
 //        menu.showAllFood();
         menu.readAllRecord();
+        boolean x = menu.searchByName("Padthai");
+        System.out.println(x);
+        menu.showNamePrice((short)4);
     }
 }
