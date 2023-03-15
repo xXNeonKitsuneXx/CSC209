@@ -73,11 +73,56 @@ public class SinglyLinkedList {
         }
     }
 
-//    public int deleteIthNode(int i){
-//
-//    }
-//
-//    public void insertNodeAtIthInMiddle(int i,int newValue){
-//          midterm-test
-//    }
+    // homework
+    public int deleteIthNode(int i) {
+        if (head == tail || head == null) {
+            return deleteFromTail();
+        } 
+        else if (i == 0) {
+            return deleteFromHead();
+        } 
+        else {
+            int info = tail.info;
+            SLLNode ptr;
+            int count = 0;
+            for (ptr = head; ptr != null; ptr = ptr.next) {
+                count++;
+            }
+            SLLNode temp = head;
+            for (int j = 1; j <= count; j++) {
+                if (j == i) {
+                    temp.next = temp.next.next;
+                    return info;
+                }
+                temp = temp.next;
+            }
+            return info;
+        }
+    }
+
+    public void insertNodeAtIthInMiddle(int i, int newValue) {
+        SLLNode ptr;
+        int count = 0;
+        for (ptr = head; ptr != null; ptr = ptr.next) {
+            count++;
+        }
+        if (isEmpty()) {
+            head = tail = new SLLNode(newValue);
+        } 
+        else if (i == 0) {
+            addToHead(newValue);
+        } 
+        else if (i == count) {
+            addToTail(newValue);
+        } 
+        else {
+            SLLNode temp = head;
+            for (int j = 1; j <= count; j++) {
+                if (j == i) {
+                    temp.next = new SLLNode(newValue, temp.next);
+                }
+                temp = temp.next;
+            }
+        }
+    }
 }
