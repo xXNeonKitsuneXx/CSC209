@@ -51,7 +51,7 @@ public class SortingLab {
         System.out.println();
 
         //////////////////////////////////////////////////////////
-        Data d6 = new Data(100); //
+        Data d6 = new Data(100); //Radix Sort
         d6.clone(d1);
         System.out.println("-----Radix Sort-----");
         d6.printAll();
@@ -60,7 +60,7 @@ public class SortingLab {
         System.out.println();
 
         //////////////////////////////////////////////////////////
-        Data d7 = new Data(100); //
+        Data d7 = new Data(100); //Merge Sort
         d7.clone(d1);
         System.out.println("-----Merge Sort-----");
         d7.printAll();
@@ -69,7 +69,7 @@ public class SortingLab {
         System.out.println();
 
         //////////////////////////////////////////////////////////
-        Data d8 = new Data(100); //
+        Data d8 = new Data(100); //Shell Sort
         d8.clone(d1);
         System.out.println("-----Shell Sort-----");
         d8.printAll();
